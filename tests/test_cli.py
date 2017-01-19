@@ -24,22 +24,22 @@ from sdsc.cli import parsecli
 @pytest.mark.parametrize('cli,expected', [
   (['in.xml', 'out.xml'],
    {'INPUTFILE': 'in.xml',
-    'OUTPUFILE': 'out.xml'}
+    'OUTPUTFILE': 'out.xml'}
    ),
   (['-v', 'in.xml', 'out.xml'],
    {'-v': 1,
     'INPUTFILE': 'in.xml',
-    'OUTPUFILE': 'out.xml'}
+    'OUTPUTFILE': 'out.xml'}
    ),
   (['-vv', 'in.xml', 'out.xml'],
    {'-v': 2,
     'INPUTFILE': 'in.xml',
-    'OUTPUFILE': 'out.xml'}
+    'OUTPUTFILE': 'out.xml'}
    ),
   (['-vvv', 'in.xml', 'out.xml' ],
    {'-v': 3,
     'INPUTFILE': 'in.xml',
-    'OUTPUFILE': 'out.xml'}
+    'OUTPUTFILE': 'out.xml'}
    ),
 ])
 def test_parsecli(cli, expected):
