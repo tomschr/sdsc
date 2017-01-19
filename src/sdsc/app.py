@@ -1,4 +1,3 @@
-#
 # Copyright (c) 2017 SUSE Linux GmbH
 #
 # This program is free software; you can redistribute it and/or
@@ -16,20 +15,24 @@
 # To contact SUSE about this file by physical or electronic mail,
 # you may find current contact information at www.suse.com
 
-from .app import App
-from .cli import parsecli
 
-__version__ = "2016.7.0.0"
+class App(object):
+    def __init__(self, clidict=None):
+        self._clidict = {} if clidict is None else clidict
 
+    @property
+    def cli(self):
+        return self._clidict
 
-def main(cliargs=None):
-    """Entry point for the application script
+    @property
+    def inputfile(self):
+        return self._clidict.get('INPUTFILE')
 
-    :param list cliargs: Arguments to parse or None (=use sys.argv)
-    :return: return zero or non-zero value
-    """
-    args = parsecli(cliargs)
-    app = App(args)
-    print(args)
-    print(app)
-    return 0
+    @property
+    def outputfile(self):
+        return self._clidict.get('OUTPUTFILE')
+
+    def __repr__(self):
+        return "<{} input={!r} output={!r}>".format(type(self).__name__,
+                                       self.inputfile,
+                                       self.outputfile)
