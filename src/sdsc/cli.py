@@ -19,13 +19,13 @@
 """
 Usage:
    sdsc [-h | --help]
-   sdsc  [-v ...] [options] INPUTFILE [OUTPUFILE]
+   sdsc  [-v ...] [options] INPUTFILE [OUTPUTFILE]
 
 checks a given DocBook XML file for stylistic errors
 
 Positional Arguments:
   INPUTFILE          DocBook XML file to check
-  OUTPUFILE          optional result XML file; if not give, use stdout
+  OUTPUTFILE         optional result XML file; if not give, use stdout
 
 Options:
   -h, --help         show this help message and exit
@@ -67,5 +67,4 @@ def parsecli(cliargs=None):
     from sdsc import __version__
     version = "%s %s" % (__package__, __version__)
     args = docopt(__doc__, argv=cliargs, version=version)
-    print(args)
     return args
