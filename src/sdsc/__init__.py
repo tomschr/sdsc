@@ -16,4 +16,17 @@
 # To contact SUSE about this file by physical or electronic mail,
 # you may find current contact information at www.suse.com
 
+from .cli import parsecli
+
 __version__ = "2016.7.0.0"
+
+
+def main(cliargs=None):
+    """Entry point for the application script
+
+    :param list cliargs: Arguments to parse or None (=use sys.argv)
+    :return: return codes from ``ERROR_CODES``
+    """
+    args = parsecli(cliargs)
+    print(args)
+    return 0

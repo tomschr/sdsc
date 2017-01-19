@@ -17,26 +17,55 @@
 # you may find current contact information at www.suse.com
 
 """
+Usage:
+   sdsc [-h | --help]
+   sdsc  [-v ...] [options] INPUTFILE [OUTPUFILE]
 
-  You might be tempted to import things from __main__ later, but that will cause
-  problems: the code will get executed twice:
+checks a given DocBook XML file for stylistic errors
 
-  - When you run `python -msdsc` python will execute
-    ``__main__.py`` as a script. That means there won't be any
-    ``sdsc.__main__`` in ``sys.modules``.
-  - When you import __main__ it will get executed again (as a module) because
-    there's no ``sdsc.__main__`` in ``sys.modules``.
+Positional Arguments:
+  INPUTFILE          DocBook XML file to check
+  OUTPUFILE          optional result XML file; if not give, use stdout
 
-  Also see (1) from http://click.pocoo.org/5/setuptools/#setuptools-integration
+Options:
+  -h, --help         show this help message and exit
+  --version          show version number and exit
+  -b, --bookmarklet  open Web page that lets you install a bookmarklet to
+                     manage style checker results
+  -s, --show         show final report in $BROWSER, or default browser if
+                     unset; not all browsers open report files correctly and
+                     for some users, a text editor will open; in such cases,
+                     set the BROWSER variable with: export BROWSER=/MY/BROWSER
+                     ; Chromium or Firefox will both do the right thing
+  --module           writes name of current check module to stdout
+  --performance      write performance measurements to stdout
+  --checkpatterns    check formal validity of built-in regular expression
+                     patterns
 """
-import argparse
+
+#
+#Module that contains the command line app.
+#
+#Why does this file exist, and why not put this in __main__?
+#
+#  You might be tempted to import things from __main__ later, but that will cause
+#  problems: the code will get executed twice:
+#
+#  - When you run `python -msdsc` python will execute
+#    ``__main__.py`` as a script. That means there won't be any
+#    ``sdsc.__main__`` in ``sys.modules``.
+#  - When you import __main__ it will get executed again (as a module) because
+#    there's no ``sdsc.__main__`` in ``sys.modules``.
+#
+#  Also see (1) from http://click.pocoo.org/5/setuptools/#setuptools-integration
+#
+
+from docopt import docopt
 
 
-parser = argparse.ArgumentParser(description='Command description.')
-parser.add_argument('names', metavar='NAME', nargs=argparse.ZERO_OR_MORE,
-                    help="A name of something.")
-
-
-def main(args=None):
-    args = parser.parse_args(args=args)
-    print(args.names)
+def parsecli(cliargs=None):
+    from sdsc import __version__
+    version = "%s %s" % (__package__, __version__)
+    args = docopt(__doc__, argv=cliargs, version=version)
+    print(args)
+    return args

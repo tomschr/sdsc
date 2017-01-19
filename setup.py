@@ -93,7 +93,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'sdsc = sdsc.cli:main',
+            'sdsc = sdsc:main',
         ]
     },
 )
