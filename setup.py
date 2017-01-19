@@ -19,9 +19,6 @@
 # you may find current contact information at www.suse.com
 
 
-from __future__ import absolute_import
-from __future__ import print_function
-
 import io
 import re
 from glob import glob
@@ -33,6 +30,9 @@ from os.path import splitext
 from setuptools import find_packages
 from setuptools import setup
 
+PROJECTNAME = "suse-doc-style-checker"
+PROGRAMNAME = "SUSE Documentation Style Checker"
+
 
 def read(*names, **kwargs):
     return io.open(
@@ -42,50 +42,52 @@ def read(*names, **kwargs):
 
 
 setup(
-    name='sdsc',
+    name=PROJECTNAME,
     version='2016.7.0.0',
-    license='BSD',
+    license='LGPL-2.1+',
     description='Style Checker for SUSE Documentation',
     long_description='%s\n%s' % (
         re.compile('^.. start-badges.*^.. end-badges', re.M | re.S).sub('', read('README.rst')),
         re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
     ),
-    author='Thomas Schraitle',
-    author_email='toms@opensuse.org',
+    author='Stefan Knorr, Thomas Schraitle',
+    author_email='sknorr@suse.de',
     url='https://github.com/openSUSE/suse-doc-style-checker',
+
     packages=find_packages('src'),
     package_dir={'': 'src'},
     py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
+
     include_package_data=True,
     zip_safe=False,
+
     classifiers=[
         # complete classifier list: http://pypi.python.org/pypi?%3Aaction=list_classifiers
-        'Development Status :: 5 - Production/Stable',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: BSD License',
+        'Development Status :: 3 - Alpha',
+        # Indicate who your project is intended for
+        'Topic :: Documentation',
+        'Topic :: Software Development :: Documentation',
+        'Intended Audience :: Developers'
+        #
+        'License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)',
+        #
         'Operating System :: Unix',
         'Operating System :: POSIX',
-        'Operating System :: Microsoft :: Windows',
+        # 'Operating System :: Microsoft :: Windows',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: Implementation :: CPython',
-        'Programming Language :: Python :: Implementation :: PyPy',
-        # uncomment if you test on these interpreters:
-        # 'Programming Language :: Python :: Implementation :: IronPython',
-        # 'Programming Language :: Python :: Implementation :: Jython',
-        # 'Programming Language :: Python :: Implementation :: Stackless',
+        'Programming Language :: Python :: 3.6',
         'Topic :: Utilities',
     ],
-    keywords=[
-        # eg: 'keyword1', 'keyword2', 'keyword3',
-    ],
+
+    keywords=["docbook5", "style", "style-checking"],
+
     install_requires=[
-        # eg: 'aspectlib==1.1.1', 'six>=1.7',
+        'lxml', 'docopt',
     ],
+    tests_require=['pytest'],
     extras_require={
         # eg:
         #   'rst': ['docutils>=0.11'],

@@ -1,0 +1,46 @@
+<!-- DTD to validate SUSE Documentation Style Checker "terminology files"
+     (the file type that is used for most kinds of word-level language check).
+-->
+<!--  To validate, do
+        $ xmllint -dtdvalid [PATH TO THIS DTD] [PATH TO TERMINOLOGY FILE]
+-->
+
+<!ELEMENT terminology     (term+)>
+
+<!ELEMENT term            (accept, patterngroup+) >
+
+<!ELEMENT accept          (proposal?, context?) >
+
+<!ELEMENT patterngroup    (pattern+, contextpattern*) >
+
+<!ELEMENT pattern         (#PCDATA) >
+
+<!ELEMENT contextpattern  (#PCDATA) >
+
+<!ELEMENT proposal        (#PCDATA) >
+
+<!ELEMENT context         (#PCDATA) >
+
+<!--  Default values are [nothing], yes. -->
+<!ATTLIST terminology
+                          ignoredwords CDATA                        #IMPLIED
+                          useonepattern (yes|no)                    #IMPLIED >
+
+<!--  Default value is general. -->
+<!ATTLIST patterngroup
+                          reason    (general|terminology|filler|projectspelling|
+                                    contraction|abbreviation|tautology|
+                                    languagevariant)
+                                                                    #IMPLIED >
+
+<!--  Default value is 1, ignore. -->
+<!ATTLIST pattern
+                          case      (ignore|keep)                   #IMPLIED >
+
+<!--  Default values are after, exact, 1, positive, ignore. -->
+<!ATTLIST contextpattern
+                          look      (before|after|bothways)         #IMPLIED
+                          mode      (fuzzy|exact)                   #IMPLIED
+                          location  (1|2|3|4|5)                     #IMPLIED
+                          match     (positive|negative)             #IMPLIED
+                          case      (ignore|keep)                   #IMPLIED >

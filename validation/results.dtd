@@ -1,0 +1,38 @@
+<!--  DTD to validate the result file of the SUSE Documentation Style Checker.
+-->
+<!--  To validate, do
+        $ xmllint -dtdvalid [PATH TO THIS DTD] [PATH TO RESULT FILE]
+-->
+
+<!ENTITY % generalinlines "em | tag | quote" >
+<!ENTITY % messageinlines "id | name | %generalinlines;" >
+
+<!ELEMENT results       (results-title, (result? | part*))>
+
+
+<!ELEMENT results-title (#PCDATA) >
+<!ELEMENT part          (part-title, result+) >
+<!ATTLIST part          source CDATA #REQUIRED >
+
+
+<!ELEMENT part-title    (#PCDATA) >
+<!ELEMENT result        (location?, message, suggestion*) >
+<!ATTLIST result        type (info|warning|error) #REQUIRED >
+<!ELEMENT location      (file?, withinid?, line?) >
+
+<!ELEMENT message       (#PCDATA | %messageinlines;)* >
+
+<!ELEMENT suggestion    (#PCDATA | %generalinlines;)* >
+  <!--  FIXME: The asterisks after error, warning, info, and suggestion should
+        actually be plus signs. That makes the DTD invalid, though.
+  -->
+
+<!ELEMENT name          (#PCDATA) >
+<!ELEMENT id            (#PCDATA) >
+<!ELEMENT tag           (#PCDATA) >
+<!ELEMENT em            (#PCDATA) >
+<!ELEMENT quote         (#PCDATA | highlight | em | tag)* >
+<!ELEMENT highlight     (#PCDATA) >
+<!ELEMENT withinid      (#PCDATA) >
+<!ELEMENT file          (#PCDATA) >
+<!ELEMENT line          (#PCDATA) >

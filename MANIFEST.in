@@ -1,21 +1,50 @@
-graft docs
-graft examples
-graft src
-graft ci
+# For further details, see
+# https://docs.python.org/3/distutils/sourcedist.html#specifying-the-files-to-distribute
+
+# INCLUDE IT ALL
+
+# Docs
+include *.md
+include ChangeLog
+include README*
+include LICENSE
+
+# Development Files & Test Suite
+include make_devsetup.sh
+include requirements.txt
+include test_requirements.txt
+include tox.ini
+
+# Helper files for program itself
+include src/sdsc/*.html
+include src/sdsc/*.css
+
+# Packaging
+include packaging/suse-doc-style-checker.spec
+
+# Docs
+graft man
+
+# Check Files & Validation & Test Suite
+graft src/sdsc/xsl-checks
+graft validation
 graft tests
 
-include .bumpversion.cfg
-include .coveragerc
-include .cookiecutterrc
-include .editorconfig
-include .isort.cfg
 
-include AUTHORS.rst
-include CHANGELOG.rst
-include CONTRIBUTING.rst
-include LICENSE
-include README.rst
+# REMOVE NONSENSE
 
-include tox.ini .travis.yml appveyor.yml
+# Why are the following dirs included by default?
+# There is no .py in these dirs, and these are referenced nowhere. It's great
+# when Python's tools do what you want, except they never do -- instead they
+# rely on magic and fairy dust and produce nonsense half the time.
+prune experimental-checks
+prune bookmarklet
 
-global-exclude *.py[cod] __pycache__ *.so *.dylib
+# The pre-built version of the man page
+global-exclude sdsc.1
+
+# Configuration files for automated testing & git repo maintenance
+global-exclude .cookiecutterrc .coveragerc .coverage .travis.yml .versionrc versionbump
+
+# Temporary files
+global-exclude *.py[cod] __pycache__ *.so *.dylib *~ *.bak *.gitignore *.doap

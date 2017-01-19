@@ -12,6 +12,9 @@ test/*/
 # C extensions
 *.so
 
+# Manpages
+man/*.1
+
 # Distribution / packaging
 .Python
 .idea/
