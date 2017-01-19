@@ -41,16 +41,6 @@ from sdsc.cli import parsecli
     'INPUTFILE': 'in.xml',
     'OUTPUFILE': 'out.xml'}
    ),
-  #(['--report', 'report.svrl', '--schema', 'schema.sch', 'a.xml'],
-   #{'--report': 'report.svrl',
-    #'--schema': 'schema.sch',
-    #'XMLFILE':  'a.xml'}
-   #),
-   #(['--phase', 'foo', '--schema', 'schema.sch', 'a.xml'],
-   #{'--phase': 'foo',
-    #'--schema': 'schema.sch',
-    #'XMLFILE':  'a.xml'}
-   #),
 ])
 def test_parsecli(cli, expected):
     result = parsecli(cli)
