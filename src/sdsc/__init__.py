@@ -32,4 +32,6 @@ def main(cliargs=None):
     app = App(args)
     print(args)
     print(app)
+    print(app.xsltfiles)
+    print(app.parser)
     return 0
