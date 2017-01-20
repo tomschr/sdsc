@@ -20,30 +20,13 @@ import glob
 import os
 
 
-class XSLTFiles(object):
-    def __init__(self, parser):
-        self.parser = parser
-        location = os.path.dirname(os.path.realpath(__file__))
-        self._checkfiles = glob.glob(os.path.join(location, 'xsl-checks', '*.xslc'))
-        # if self._checkfiles:
-        #    raise
-
-    @property
-    def checkfiles(self):
-        return self._checkfiles
-
-    def __iter__(self):
-        for checkfile in self._checkfiles:
-            checkmodule = os.path.splitext(os.path.basename(checkfile))[0]
-            transform = etree.XSLT(etree.parse(checkfile, self.parser))
-            yield {'name': checkmodule, 'transform': transform}
-
-    def __repr__(self):
-        return "<{}: {}>".format(type(self).__name__, list(self))
-
-
-##
-def linenumber(context, ...):
+def xslcfiles(parser):
+    location = os.path.dirname(os.path.realpath(__file__))
+    files = glob.glob(os.path.join(location, 'xsl-checks', '*.xslc'))
+    for xslc in files:
+        module = os.path.splitext(os.path.basename(xslc))[0]
+        transform = etree.XSLT(etree.parse(xslc, parser))
+        yield {'name': module, 'transform': transform}
 
 
 class App(object):
@@ -68,7 +51,8 @@ class App(object):
                                       remove_pis=False,
                                       dtd_validation=False,
                                       )
-        self.xsltfiles = XSLTFiles(self.parser)
+        self.xslcfiles = xslcfiles(self.parser)
+
 
     @property
     def cli(self):
