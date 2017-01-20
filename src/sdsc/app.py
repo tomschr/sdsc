@@ -18,6 +18,10 @@
 from lxml import etree
 import glob
 import os
+import concurrent.futures as cf
+import threading
+import queue
+import time
 
 
 def xslcfiles(parser):
@@ -53,6 +57,17 @@ class App(object):
                                       )
         self.xslcfiles = xslcfiles(self.parser)
 
+    def _task(self, n):
+        print('{}: n={}'.format(threading.current_thread().name, n))
+        # return n/10
+
+    def run(self, workers=10):
+        ts = time.time()
+        with cf.ThreadPoolExecutor(max_workers=workers) as executor:
+            for i in range(workers):
+                executor.submit(self._task, i)
+        te = time.time()
+        print("Time needed:", te - ts)
 
     @property
     def cli(self):
@@ -71,5 +86,3 @@ class App(object):
                                        self.inputfile,
                                        self.outputfile)
 
-    def linenumber(self, context, ...):
-        # ...

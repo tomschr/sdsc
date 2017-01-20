@@ -34,4 +34,5 @@ def main(cliargs=None):
     print(app)
     # print(app.xslcfiles)
     print(app.parser)
+    app.run()
     return 0
