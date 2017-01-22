@@ -16,23 +16,6 @@
 # To contact SUSE about this file by physical or electronic mail,
 # you may find current contact information at www.suse.com
 
-from .app import App
-from .cli import parsecli
 
 __version__ = "2016.7.0.0"
-
-
-def main(cliargs=None):
-    """Entry point for the application script
-
-    :param list cliargs: Arguments to parse or None (=use sys.argv)
-    :return: return zero or non-zero value
-    """
-    args = parsecli(cliargs)
-    app = App(args)
-    print(args)
-    print(app)
-    # print(app.xslcfiles)
-    print(app.parser)
-    app.run()
-    return 0
+__author__ = "Stefan Knorr, Thomas Schraitle"

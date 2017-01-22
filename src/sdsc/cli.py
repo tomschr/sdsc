@@ -68,3 +68,19 @@ def parsecli(cliargs=None):
     version = "%s %s" % (__package__, __version__)
     args = docopt(__doc__, argv=cliargs, version=version)
     return args
+
+
+def main(cliargs=None):
+    """Entry point for the application script
+
+    :param list cliargs: Arguments to parse or None (=use sys.argv)
+    :return: return zero or non-zero value
+    """
+    args = parsecli(cliargs)
+    app = App(args)
+    print(args)
+    print(app)
+    # print(app.xslcfiles)
+    print(app.parser)
+    app.run()
+    return 0
