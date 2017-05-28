@@ -4,7 +4,7 @@
 -r docs/requirements.txt
 pytest
 # flake8
-coverage
+# coverage
 codecov
 codeclimate-test-reporter
 pytest-cov
