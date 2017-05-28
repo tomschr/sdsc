@@ -1,101 +1,145 @@
 #!/usr/bin/env python
-# -*- encoding: utf-8 -*-
-#
-# Copyright (c) 2017 SUSE Linux GmbH
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of version 3 of the GNU General Public License as
-# published by the Free Software Foundation.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, contact SUSE LLC.
-#
-# To contact SUSE about this file by physical or electronic mail,
-# you may find current contact information at www.suse.com
-
 
 import io
+import os
+import os.path
 import re
-from glob import glob
-from os.path import basename
-from os.path import dirname
-from os.path import join
-from os.path import splitext
 
-from setuptools import find_packages
-from setuptools import setup
+from setuptools import setup, find_packages
 
-PROJECTNAME = "suse-doc-style-checker"
-PROGRAMNAME = "SUSE Documentation Style Checker"
+# FIXME: this information should come from the script itself...
+__projectname__ = "suse-doc-style-checker"
+__programname__ = "SUSE Documentation Style Checker"
+# __version__ will be read from sdsc/__init__.py
+__authors__ = "Stefan Knorr, Thomas Schraitle"
+__license__ = "LGPL-2.1+"
+__description__ = "checks a given DocBook XML file for stylistic errors"
+
+HERE = os.path.abspath(os.path.dirname(__file__))
+
+
+def requires(filename):
+    """Returns a list of all pip requirements
+
+    :param filename: the Pip requirement file (usually 'requirements.txt')
+    :return: list of modules
+    :rtype: list
+    """
+    modules = []
+    with open(filename, 'r') as pipreq:
+        for line in pipreq:
+            line = line.strip()
+            if line.startswith('#') or not line:
+                continue
+            # if line.startswith('-r'):
+            # TODO: what to do here?
+            modules.append(line)
+    return modules
 
 
 def read(*names, **kwargs):
-    return io.open(
-        join(dirname(__file__), *names),
-        encoding=kwargs.get('encoding', 'utf8')
-    ).read()
+    """Read in file
+    """
+    with io.open(os.path.join(HERE, *names),
+                 encoding=kwargs.get("encoding", "utf8")) as fp:
+        return fp.read()
 
 
-setup(
-    name=PROJECTNAME,
-    version='2016.7.0.0',
-    license='LGPL-2.1+',
-    description='Style Checker for SUSE Documentation',
-    long_description='%s\n%s' % (
-        re.compile('^.. start-badges.*^.. end-badges', re.M | re.S).sub('', read('README.rst')),
-        re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
-    ),
-    author='Stefan Knorr, Thomas Schraitle',
+def find_version(*file_paths):
+    """Read __version__ string from file paths
+
+    :return: version string
+    :rtype: str
+    """
+    version_file = read(*file_paths)
+    version_match = re.search(r"^__version__\s*=\s*['\"]([^'\"]*)['\"]",
+                              version_file, re.M)
+    if version_match:
+        return version_match.group(1)
+    raise RuntimeError("Unable to find version string.")
+
+
+setupdict = dict(
+    name=__projectname__,
+
+    # Versions should comply with PEP440.  For a discussion on single-sourcing
+    # the version across setup.py and the project code, see
+    # http://python-packaging-user-guide.readthedocs.org/en/latest/single_source_version/
+    version=find_version("src", "sdsc", "__init__.py"),  # __version__,
+
+    description=__description__,
+    long_description="Checks a given DocBook XML file for stylistic errors using check files written in XSLT",
+
+    # The project's main homepage.
+    url='https://www.github.org/openSUSE/suse-doc-style-checker',
+    download_url='https://github.org/openSUSE/suse-doc-style-checker/releases',
+
+    # Author details
+    author=__authors__,
     author_email='sknorr@suse.de',
-    url='https://github.com/openSUSE/suse-doc-style-checker',
 
-    packages=find_packages('src'),
-    package_dir={'': 'src'},
-    py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
+    license=__license__,
 
-    include_package_data=True,
-    zip_safe=False,
-
+    # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
-        # complete classifier list: http://pypi.python.org/pypi?%3Aaction=list_classifiers
-        'Development Status :: 3 - Alpha',
+        # How mature is this project? Common values are
+        #   3 - Alpha
+        #   4 - Beta
+        #   5 - Production/Stable
+        'Development Status :: 5 - Production/Stable',
+
         # Indicate who your project is intended for
         'Topic :: Documentation',
         'Topic :: Software Development :: Documentation',
-        'Intended Audience :: Developers'
-        #
+        'Intended Audience :: Developers',
+
+        # Pick your license as you wish (should match "license" above)
         'License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)',
-        #
-        'Operating System :: Unix',
-        'Operating System :: POSIX',
-        # 'Operating System :: Microsoft :: Windows',
-        'Programming Language :: Python',
+
+        # Supported Python versions
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
-        'Topic :: Utilities',
     ],
 
     keywords=["docbook5", "style", "style-checking"],
 
-    install_requires=[
-        'lxml', 'docopt',
-    ],
-    tests_require=['pytest'],
-    extras_require={
-        # eg:
-        #   'rst': ['docutils>=0.11'],
-        #   ':python_version=="2.6"': ['argparse'],
-    },
+    # ----
+    # Includes data files from MANIFEST.in
+    #
+    # See also:
+    # http://stackoverflow.com/a/16576850
+    # https://pythonhosted.org/setuptools/setuptools.html#including-data-files
+    include_package_data=True,
+
+    # You can just specify the packages manually here if your project is
+    # simple. Or you can use find_packages().
+    # toms: Check this
+    packages=find_packages('src', exclude=('.+\.xml',)),
+    package_dir={'': 'src'},
+
+    # List run-time dependencies here.  These will be installed by pip when
+    # your project is installed. For an analysis of "install_requires" vs pip's
+    # requirements files see:
+    # https://packaging.python.org/en/latest/requirements.html
+    install_requires=requires('requirements.txt'),
+
+
+    # To provide executable scripts, use entry points in preference to the
+    # "scripts" keyword. Entry points provide cross-platform support and allow
+    # pip to create the appropriate form of executable for the target platform.
     entry_points={
-        'console_scripts': [
-            'sdsc = sdsc.cli:main',
-        ]
+        'console_scripts': ['sdsc=sdsc.cli:main'],
     },
+
+    # Required packages for using "setup.py test"
+    setup_requires=['pytest-runner'],
+    tests_require=['pytest', 'pytest-cov', 'pytest-catchlog'],
 )
+
+
+# Call it:
+setup(**setupdict)
+
+# EOF
