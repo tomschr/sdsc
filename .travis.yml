@@ -1,5 +1,6 @@
 language: python
-sudo: false
+# sudo: false
+cache: pip
 env:
   global:
     LD_PRELOAD=/lib/x86_64-linux-gnu/libSegFault.so
@@ -17,7 +18,10 @@ matrix:
           packages:
           - python3.5
           - python3.5-dev
+    - env: TOXENV=3.6
 
+before_install:
+  - env
 install:
   - pip install tox coveralls
   - virtualenv --version
