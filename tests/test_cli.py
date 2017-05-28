@@ -22,24 +22,28 @@ from sdsc.cli import parsecli
 
 
 @pytest.mark.parametrize('cli,expected', [
-  (['in.xml', 'out.xml'],
-   {'INPUTFILE': 'in.xml',
-    'OUTPUTFILE': 'out.xml'}
+  (['-o', 'out.xml', 'in.xml'],
+   {'XMLFILES': ['in.xml'],
+    '--output': 'out.xml'}
    ),
-  (['-v', 'in.xml', 'out.xml'],
+  (['-o', 'out.xml', 'inA.xml', 'inB.xml'],
+   {'XMLFILES': ['inA.xml', 'inB.xml'],
+    '--output': 'out.xml'}
+   ),
+  (['-v', '-o', 'out.xml', 'in.xml'],
    {'-v': 1,
-    'INPUTFILE': 'in.xml',
-    'OUTPUTFILE': 'out.xml'}
+    'XMLFILES': ['in.xml'],
+    '--output': 'out.xml'}
    ),
-  (['-vv', 'in.xml', 'out.xml'],
+  (['-vv', '-o', 'out.xml', 'in.xml'],
    {'-v': 2,
-    'INPUTFILE': 'in.xml',
-    'OUTPUTFILE': 'out.xml'}
+    'XMLFILES': ['in.xml'],
+    '--output': 'out.xml'}
    ),
-  (['-vvv', 'in.xml', 'out.xml' ],
+  (['-vvv', '-o', 'out.xml', 'in.xml',],
    {'-v': 3,
-    'INPUTFILE': 'in.xml',
-    'OUTPUTFILE': 'out.xml'}
+    'XMLFILES': ['in.xml'],
+    '--output': 'out.xml'}
    ),
 ])
 def test_parsecli(cli, expected):

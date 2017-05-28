@@ -16,6 +16,27 @@
 # To contact SUSE about this file by physical or electronic mail,
 # you may find current contact information at www.suse.com
 
+"""
+sdsc Module
+===================
 
+.. default-domain:: py
+
+Checks a given DocBook XML file for stylistic errors
+"""
+
+import logging
+
+
+__projectname__ = "suse-doc-style-checker"
+__programname__ = "SUSE Documentation Style Checker"
+__license__ = "LGPL-2.1+"
+__description__ = "checks a given DocBook XML file for stylistic errors"
+__authors__ = "Stefan Knorr, Thomas Schraitle, Fabian Vogt"
+__url__ = "https://github.com/tomschr/sdsc"
 __version__ = "2016.7.0.0"
-__author__ = "Stefan Knorr, Thomas Schraitle"
+
+
+#: Set default logging handler to avoid "No handler found" warnings.
+# See https://docs.python.org/3/howto/logging.html#library-config
+logging.getLogger().addHandler(logging.NullHandler())

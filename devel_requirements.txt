@@ -1,9 +1,17 @@
 # Requirements file for pip
-# Use it with pip install -r test_requirements.txt
+# Use it with pip install -r devel_requirements.txt
 
 -r requirements.txt
--r travis_requirements.txt
+tox
+pytest
+pytest-cov
+pytest-catchlog
+six
+#
 flake8
-bumpversion
-prospector
-wheel
+coverage
+#
+codecov
+coveralls
+codacy-coverage
+codeclimate-test-reporter
