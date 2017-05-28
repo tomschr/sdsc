@@ -37,7 +37,7 @@ after_failure:
 after_success:
   - coveralls
   - coverage xml
-  # - python-codacy-coverage -r coverage.xml
+  - python-codacy-coverage -r coverage.xml
 notifications:
   email:
     on_success: never
