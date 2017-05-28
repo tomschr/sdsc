@@ -19,6 +19,13 @@ matrix:
           - python3.5
           - python3.5-dev
     - env: TOXENV=3.6
+      addons:
+        apt:
+            sources:
+            - deadsnakes
+            packages:
+            - python3.6
+
 
 before_install:
   - env
