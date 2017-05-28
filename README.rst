@@ -7,65 +7,41 @@ Overview
 .. list-table::
     :stub-columns: 1
 
-    * - docs
-      - |docs|
     * - tests
-      - | |travis|
+      - | |travis| |codacy|
         | |coveralls| |codecov|
-        | |landscape| |scrutinizer|
-    * - package
-      - |version| |downloads| |wheel| |supported-versions| |supported-implementations|
+        | |scrutinizer|
 
-.. |docs| image:: https://readthedocs.org/projects/suse-doc-style-checker/badge/?style=flat
-    :target: https://readthedocs.org/projects/suse-doc-style-checker
-    :alt: Documentation Status
-
-.. |travis| image:: https://travis-ci.org/openSUSE/suse-doc-style-checker.svg?branch=master
+.. |travis| image:: https://travis-ci.org/tomschr/sdsc.svg?branch=develop
     :alt: Travis-CI Build Status
-    :target: https://travis-ci.org/openSUSE/suse-doc-style-checker
+    :target: https://travis-ci.org/tomschr/sdsc
 
-.. |coveralls| image:: https://coveralls.io/repos/openSUSE/suse-doc-style-checker/badge.svg?branch=master&service=github
+.. |coveralls| image:: https://coveralls.io/repos/tomschr/sdsc/badge.svg?branch=develop&service=github
     :alt: Coverage Status
-    :target: https://coveralls.io/r/openSUSE/suse-doc-style-checker
+    :target: https://coveralls.io/r/tomschr/sdsc
 
-.. |codecov| image:: https://codecov.io/github/openSUSE/suse-doc-style-checker/coverage.svg?branch=master
+.. |codecov| image:: https://codecov.io/github/tomschr/sdsc/coverage.svg?branch=develop
     :alt: Coverage Status
-    :target: https://codecov.io/github/openSUSE/suse-doc-style-checker
+    :target: https://codecov.io/github/tomschr/sdsc
 
-.. |landscape| image:: https://landscape.io/github/openSUSE/suse-doc-style-checker/master/landscape.svg?style=flat
-    :target: https://landscape.io/github/openSUSE/suse-doc-style-checker/master
+.. |landscape| image:: https://landscape.io/github/tomschr/sdsc/develop/landscape.svg?style=flat
+    :target: https://landscape.io/github/tomschr/sdsc/develop
     :alt: Code Quality Status
 
-.. |version| image:: https://img.shields.io/pypi/v/sdsc.svg?style=flat
-    :alt: PyPI Package latest release
-    :target: https://pypi.python.org/pypi/sdsc
-
-.. |downloads| image:: https://img.shields.io/pypi/dm/sdsc.svg?style=flat
-    :alt: PyPI Package monthly downloads
-    :target: https://pypi.python.org/pypi/sdsc
-
-.. |wheel| image:: https://img.shields.io/pypi/wheel/sdsc.svg?style=flat
-    :alt: PyPI Wheel
-    :target: https://pypi.python.org/pypi/sdsc
-
-.. |supported-versions| image:: https://img.shields.io/pypi/pyversions/sdsc.svg?style=flat
-    :alt: Supported versions
-    :target: https://pypi.python.org/pypi/sdsc
-
-.. |supported-implementations| image:: https://img.shields.io/pypi/implementation/sdsc.svg?style=flat
-    :alt: Supported implementations
-    :target: https://pypi.python.org/pypi/sdsc
-
-.. |scrutinizer| image:: https://img.shields.io/scrutinizer/g/openSUSE/suse-doc-style-checker/master.svg?style=flat
+.. |scrutinizer| image:: https://img.shields.io/scrutinizer/g/tomschr/sdsc/develop.svg?style=flat
     :alt: Scrutinizer Status
-    :target: https://scrutinizer-ci.com/g/openSUSE/suse-doc-style-checker/
+    :target: https://scrutinizer-ci.com/g/tomschr/sdsc/
 
+.. |codacy| image:: https://api.codacy.com/project/badge/Grade/c53560d027bc4c50a9eacd9a82072063
+    :alt: Codacy Status
+    :target: https://www.codacy.com/app/tomschr/sdsc?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tomschr/sdsc&amp;utm_campaign=Badge_Grade
 
 .. end-badges
 
 Style Checker for SUSE Documentation
 
-* Free software: BSD license
+* Free software: GPL3+
+
 
 Installation
 ============
@@ -74,31 +50,4 @@ Installation
 
     pip install sdsc
 
-Documentation
-=============
 
-https://suse-doc-style-checker.readthedocs.io/
-
-Development
-===========
-
-To run the all tests run::
-
-    tox
-
-Note, to combine the coverage data from all the tox environments run:
-
-.. list-table::
-    :widths: 10 90
-    :stub-columns: 1
-
-    - - Windows
-      - ::
-
-            set PYTEST_ADDOPTS=--cov-append
-            tox
-
-    - - Other
-      - ::
-
-            PYTEST_ADDOPTS=--cov-append tox

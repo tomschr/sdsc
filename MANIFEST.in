@@ -2,18 +2,25 @@
 # https://docs.python.org/3/distutils/sourcedist.html#specifying-the-files-to-distribute
 
 # INCLUDE IT ALL
+recursive-include docs *.rst *.py
+include docs/spelling_wordlist.txt
+include docs/requirements.txt
 
 # Docs
 include *.md
 include ChangeLog
 include README*
 include LICENSE
+include AUTHORS.rst
+include CHANGELOG.rst
+include CONTRIBUTING.rst
 
 # Development Files & Test Suite
 include make_devsetup.sh
-include requirements.txt
-include test_requirements.txt
+include *requirements.txt
 include tox.ini
+include .bumpversion.cfg
+include .editorconfig
 
 # Helper files for program itself
 include src/sdsc/*.html
@@ -39,6 +46,7 @@ graft tests
 # rely on magic and fairy dust and produce nonsense half the time.
 prune experimental-checks
 prune bookmarklet
+prune contrib
 
 # The pre-built version of the man page
 global-exclude sdsc.1
