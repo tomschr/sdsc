@@ -16,11 +16,9 @@
 # To contact SUSE about this file by physical or electronic mail,
 # you may find current contact information at www.suse.com
 
-import collections
-import concurrent.futures
 import itertools
 import logging
-from multiprocessing import Process, Pool, Queue, JoinableQueue, cpu_count
+from multiprocessing import Pool, Queue, JoinableQueue, cpu_count
 import glob
 import random
 import time

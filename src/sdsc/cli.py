@@ -47,13 +47,12 @@ Options:
 from docopt import docopt, DocoptExit
 import logging
 from logging.config import dictConfig
-from lxml import etree
 from multiprocessing import cpu_count
 
 
 from .common import (DEFAULT_LOGGING_DICT,
                      CPU_FACTOR,
-                     errorcode, LOGLEVELS,
+                     LOGLEVELS,
                      )
 from .stylecheck import process
 
