@@ -18,7 +18,7 @@
 
 import itertools
 import logging
-from multiprocessing import Pool, Queue, JoinableQueue, cpu_count
+from multiprocessing import Pool
 import glob
 import random
 import time
