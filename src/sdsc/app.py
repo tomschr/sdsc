@@ -39,7 +39,7 @@ class App(object):
         # Prepare parser (add py: namespace)
         self.ns = etree.FunctionNamespace('https://www.github.com/openSUSE/suse-doc-style-checker')
         self.ns.prefix = 'py'
-        #ns.update(dict(linenumber=linenumber,
+        # ns.update(dict(linenumber=linenumber,
         #               termcheck=termcheck,
         #               buildtermdata=buildtermdata,
         #               dupecheck=dupecheck,
@@ -49,7 +49,6 @@ class App(object):
         #               counttokens=counttokens,
         #               splitpath=splitpath,
         #               splitvalueunit=splitvalueunit))
-
 
         self.parser = etree.XMLParser(ns_clean=True,
                                       remove_pis=False,
@@ -83,6 +82,5 @@ class App(object):
 
     def __repr__(self):
         return "<{} input={!r} output={!r}>".format(type(self).__name__,
-                                       self.inputfile,
-                                       self.outputfile)
-
+                                                    self.inputfile,
+                                                    self.outputfile)

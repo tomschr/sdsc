@@ -57,4 +57,3 @@ def setloglevel(verbose):
     :param int verbose: verbose level to set
     """
     log.setLevel(LOGLEVELS.get(verbose, logging.DEBUG))
-

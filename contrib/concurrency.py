@@ -10,9 +10,11 @@ NUM_CPUS = 3
 NUM_THREADS = 4
 MAX_QUEUE_SIZE = 20
 
+
 # Runs in worker processes.
 def producer(i):
     return i + 10
+
 
 def consumer(i):
     global total
@@ -22,6 +24,7 @@ def consumer(i):
     with sumlock:
         total += i
 
+
 # Runs in threads in main program.
 def consume_results(q):
     while True:
@@ -30,6 +33,7 @@ def consume_results(q):
             break
         else:
             consumer(future.result())
+
 
 if __name__ == "__main__":
     sumlock = threading.Lock()
