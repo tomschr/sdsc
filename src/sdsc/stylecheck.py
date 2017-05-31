@@ -30,17 +30,6 @@ from .common import XSLCHECKPATH
 log = logging.getLogger(__name__)
 
 
-
-class CleanExit(object):
-     def __enter__(self):
-             return self
-     def __exit__(self, exc_type, exc_value, exc_tb):
-         if exc_type is KeyboardInterrupt:
-             return True
-         return exc_type is None
-
-
-
 def getstylechecks():
     """Return a list of all .xslc files
 
@@ -114,6 +103,20 @@ def stylepool_x(xmlfiles, styles, jobs=None):
     return values
 
 
+class CleanExit(object):
+    def __init__(self, pool):
+        self.pool = pool
+    def __enter__(self):
+        return self
+    def __exit__(self, exc_type, exc_value, exc_tb):
+        if exc_type is KeyboardInterrupt:
+            log.fatal("Received ^C, aborting")
+            self.pool.terminate()
+            self.pool.join()
+            return True
+        return exc_type is None
+
+
 def stylepool(xmlfiles, styles, jobs=None):
     """Create a multiprocessing pool distributed on jobs
 
@@ -126,17 +129,11 @@ def stylepool(xmlfiles, styles, jobs=None):
         # Catch all ^C from child processes
         signal.signal(signal.SIGINT, signal.SIG_IGN)
 
+    values = None
     with Pool(jobs, init_worker) as pool:
-        try:
+        with CleanExit(pool):
             values = pool.starmap(func=singlestylecheck,
                                   iterable=itertools.product(styles, xmlfiles))
-            pool.close()
-        except KeyboardInterrupt:
-            log.fatal("Received ^C, aborting")
-            # Not sure how to avoid that:
-            pool.terminate()
-            pool.join()
-            values = None
 
     return values
 
