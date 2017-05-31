@@ -1,16 +1,21 @@
-========
-Overview
-========
+====================================
+Style Checker for SUSE Documentation
+====================================
+
+Tries as hard as its little mind can to check whether documentation is compliant with the
+[SUSE Documentation Style Guide](https://github.com/SUSE/doc-styleguide).
+
+Releases are usually aligned with releases of the Style Guide.
+
+Free software: GPL3+
+
 
 .. start-badges
 
 .. list-table::
     :stub-columns: 1
 
-    * - tests
-      - | |travis| |codacy|
-        | |coveralls| |codecov|
-        | |scrutinizer|
+|travis| |codacy|
 
 .. |travis| image:: https://travis-ci.org/tomschr/sdsc.svg?branch=develop
     :alt: Travis-CI Build Status
@@ -38,9 +43,6 @@ Overview
 
 .. end-badges
 
-Style Checker for SUSE Documentation
-
-* Free software: GPL3+
 
 
 Installation
@@ -49,5 +51,4 @@ Installation
 ::
 
     pip install sdsc
-
 
