@@ -16,11 +16,14 @@
 # To contact SUSE about this file by physical or electronic mail,
 # you may find current contact information at www.suse.com
 
-from unittest.mock import MagicMock, Mock
+from unittest.mock import MagicMock, Mock, patch
+import logging
 from multiprocessing import Pool
-import pytest
 
-from sdsc.stylecheck import CleanExit, getstylechecks, singlestylecheck
+from sdsc.stylecheck import CleanExit, getstylechecks, singlestylecheck, process, stylepool
+
+log = logging.getLogger('sdsc')
+log.setLevel(logging.CRITICAL)
 
 
 def test_getstylechecks():
@@ -31,7 +34,7 @@ def test_singlestylecheck():
     assert singlestylecheck("fake-style", "fake.xml")
 
 
-def test_cleanexit():
+def test_cleanexit_with_keyboardinterrupt():
     pool = MagicMock(spec=Pool)
     pool.terminate = Mock(return_value=None)
     pool.join = Mock(return_value = None)
@@ -41,3 +44,23 @@ def test_cleanexit():
 
     assert pool.terminate.called
     assert pool.join.called
+
+
+def test_cleanexit_without_keyboardinterrupt():
+    pool = MagicMock(spec=Pool)
+    pool.terminate = Mock(return_value=None)
+    pool.join = Mock(return_value = None)
+
+    with CleanExit(pool):
+        pass
+
+    assert not pool.terminate.called
+    assert not pool.join.called
+
+
+#@patch('sdsc.stylecheck.stylepool')
+#def test_process(mock_stylepool):
+#    args={'XMLFILES': [], '--jobs': 1}
+#    mock_stylepool.return_value = ['a']
+#    result = process(args)
+#    assert result == ['a']

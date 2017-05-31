@@ -18,7 +18,7 @@
 
 import itertools
 import logging
-from multiprocessing import Pool, Process, Queue, JoinableQueue, current_process
+from multiprocessing import current_process, Pool
 import glob
 import random
 import time
@@ -53,56 +53,6 @@ def singlestylecheck(style, xmlfile):
     return (xmlfile, style, sleep)
 
 
-def stylepool_x(xmlfiles, styles, jobs=None):
-    """Create a multiprocessing pool distributed on jobs
-
-    :param xmlfiles: list of XML files
-    :param styles: list of styles to apply to each XML file
-    :param jobs: integer to allow N jobs at once; None defaults to CPU count
-    :return: tuple of result
-    """
-    #with Pool(jobs, init_worker) as pool:
-    #    try:
-    #        values = pool.starmap(func=singlestylecheck,
-    #                              iterable=itertools.product(styles, xmlfiles))
-    #        # pool.close() # close the process pool
-    #    except ExitProcessError:
-    #        log.error("Canceled.")
-    #        values = [None]
-    #    except KeyboardInterrupt:
-    #        log.fatal("Received ^C, aborting")
-    #        pool.terminate()
-    #        pool.join()
-    # ------------------------------------------
-    job_queue = Queue()
-    result_queue = Queue()
-
-    for data in itertools.product(styles, xmlfiles):
-        job_queue.put(data)
-
-    workers = []
-    for i in range(jobs):
-        p = Process(target=singlestylecheck,
-                    args=(i, job_queue, result_queue))
-        p.start()
-        workers.append(p)
-
-    try:
-        for process in workers:
-            process.join()
-    except KeyboardInterrupt:
-        log.error("Keyboard interrupt in stylepool")
-        for process in workers:
-            process.terminate()
-            process.join()
-        raise
-
-    values = []
-    while not result_queue.empty():
-        values.append(result_queue.get(block=False))
-    return values
-
-
 class CleanExit(object):
     def __init__(self, pool):
         self.pool = pool
@@ -110,7 +60,7 @@ class CleanExit(object):
         return self
     def __exit__(self, exc_type, exc_value, exc_tb):
         if exc_type is KeyboardInterrupt:
-            log.fatal("Received ^C, aborting")
+            log.error("Received ^C, aborting")
             self.pool.terminate()
             self.pool.join()
             return True
@@ -145,7 +95,6 @@ def process(args):
     :return: return exit value
     :rtype: int
     """
-    log.debug("Now in process()")
     start = time.time()
     results = stylepool(xmlfiles=args['XMLFILES'],
                         styles=getstylechecks(),
