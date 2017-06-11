@@ -37,6 +37,16 @@ graft src/sdsc/xsl-checks
 graft validation
 graft tests
 
+# Configuration files from PyCharm
+global-exclude .idea
+include .idea/misc.xml
+include .idea/modules.xml
+include  .idea/runConfigurations
+include  .idea/runConfigurations/Sphinx_HTML_Task.xml
+include  .idea/runConfigurations/Testing.xml
+include  .idea/sdsc.iml
+include  .idea/vcs.xml
+
 
 # REMOVE NONSENSE
 
