@@ -18,6 +18,7 @@
 
 import itertools
 import logging
+from lxml import etree
 from multiprocessing import current_process, Pool
 import glob
 import random
@@ -36,6 +37,17 @@ def getstylechecks():
     :return: style check files (.xslc)
     """
     return glob.glob(os.path.join(XSLCHECKPATH, "*.xslc"))
+
+
+def xslctrees(xslcfilelist, parser=etree.XMLParser):
+    """Build a dictionary of .xslc filenames and XML tree objects
+
+    :param xslcfilelist: list of "*.xslc" files
+    :param parser: the XML parser to use
+    :return: list of ElementTree
+    """
+    for xslc in xslcfilelist:
+        yield (xslc, etree.parse(xslc, parser))
 
 
 def singlestylecheck(style, xmlfile):
